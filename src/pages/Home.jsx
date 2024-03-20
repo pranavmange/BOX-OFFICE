@@ -1,5 +1,26 @@
+import { useState } from 'react';
+
 const Home = () => {
-  return <div>HOme</div>;
+  const [inputValue, setInputValue] = useState('');
+  console.log(inputValue);
+  const onInputChange = ev => {
+    setInputValue(ev.target.value);
+  };
+
+  return (
+    <div>
+      <div>{inputValue}</div>
+      <button
+        type="button"
+        onClick={() => {
+          setInputValue('Pranav');
+        }}
+      >
+        update to random
+      </button>
+      <input type="text" value={inputValue} onChange={onInputChange} />
+    </div>
+  );
 };
 
 export default Home;
