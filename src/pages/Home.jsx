@@ -1,20 +1,24 @@
 import { useState } from 'react';
-import { searchForShows } from './../api/tvmaze';
+import { searchForShows, searchForPeople } from './../api/tvmaze';
+import SearchForm from '../component/SearchForm';
+import ShowGrid from '../component/shows/ShowGrid';
+import ActorsGrid from '../component/actors/ActorsGrid';
 const Home = () => {
-  const [searchStr, setSearchStr] = useState('');
   const [apiData, setApiData] = useState(null);
   const [apiDataError, setApiDataError] = useState(null);
 
-  const onInputChange = ev => {
-    setSearchStr(ev.target.value);
-  };
-
-  const onSearch = async ev => {
-    ev.preventDefault();
-
+  const onSearch = async ({ q, searchOption }) => {
     try {
       setApiDataError(null);
-      const result = await searchForShows(searchStr);
+
+      let result;
+
+      if (searchOption == 'shows') {
+        result = await searchForShows(q);
+      } else {
+        // eslint-disable-next-line no-unused-vars
+        result = await searchForPeople(q);
+      }
       setApiData(result);
     } catch (error) {
       setApiDataError(error);
@@ -25,20 +29,22 @@ const Home = () => {
       return <div>Error Occoured: {apiDataError.message}</div>;
     }
 
+    if (apiData?.length === 0) {
+      return <div>No Results</div>;
+    }
     if (apiData) {
-      return apiData.map(data => (
-        <div key={data.show.id}>{data.show.name}</div>
-      ));
+      return apiData[0].show ? (
+        <ShowGrid shows={apiData} />
+      ) : (
+        <ActorsGrid actors={apiData} />
+      );
     }
     return null;
   };
 
   return (
     <div>
-      <form onSubmit={onSearch}>
-        <input type="text" value={searchStr} onChange={onInputChange} />
-        <button type="submit">Search</button>
-      </form>
+      <SearchForm onSearch={onSearch} />
 
       <div>{renderApiData()}</div>
     </div>
