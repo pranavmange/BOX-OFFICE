@@ -4,6 +4,10 @@ import SearchForm from '../component/SearchForm';
 import ShowGrid from '../component/shows/ShowGrid';
 import ActorsGrid from '../component/actors/ActorsGrid';
 import { useQuery } from '@tanstack/react-query';
+import { TextCenter } from '../component/common/TextCenter';
+// import styled, { css, ThemeProvider } from 'styled-components';
+
+// const Button = styled.button``;
 
 const Home = () => {
   const [filter, setFilter] = useState(null);
@@ -24,11 +28,11 @@ const Home = () => {
 
   const renderApiData = () => {
     if (apiDataError) {
-      return <div>Error Occoured: {apiDataError.message}</div>;
+      return <TextCenter>Error Occoured: {apiDataError.message}</TextCenter>;
     }
 
     if (apiData?.length === 0) {
-      return <div>No Results</div>;
+      return <TextCenter>No Results</TextCenter>;
     }
     if (apiData) {
       return apiData[0].show ? (

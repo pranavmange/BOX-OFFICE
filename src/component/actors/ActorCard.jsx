@@ -1,12 +1,13 @@
+import { SearchCard, SearchImgWrapper } from '../common/SearchCard';
 const ActorCard = ({ name, image, gender, country, birthday, deathday }) => {
   //   const summaryStripped = summary
   //     ? summary.split(' ').slice(0, 10).join(' ').replace(/<.+?>/g, '')
   //     : 'No Description available ';
   return (
-    <div>
-      <div>
+    <SearchCard>
+      <SearchImgWrapper>
         <img src={image} alt={name} />
-      </div>
+      </SearchImgWrapper>
       <h1>
         {name}
         {!!gender && `(${gender})`}
@@ -16,7 +17,7 @@ const ActorCard = ({ name, image, gender, country, birthday, deathday }) => {
       {!!birthday && <p>Born {birthday}</p>}
 
       <p>{deathday ? `Died ${deathday}` : 'Alive'}</p>
-    </div>
+    </SearchCard>
   );
 };
 
